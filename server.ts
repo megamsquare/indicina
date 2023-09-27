@@ -5,7 +5,7 @@ import rate_limit from 'express-rate-limit';
 import bodyParser from 'body-parser';
 import routers from './src/routes';
 
-// import Middleware from './src/middleware';
+import Middleware from './src/middleware';
 
 
 const app = express();
@@ -30,7 +30,7 @@ app.use(helmet());
 app.use('/api/v1', routers)
 
 // Page not found route
-// app.use(Middleware.NotFoundMiddleware)
+app.use(Middleware.NotFoundMiddleware)
 
 // Export the app as the default export
 export default app;
