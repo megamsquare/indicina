@@ -5,4 +5,6 @@ const routers = express.Router();
 
 routers.post("/encode", ShortURLController.encodingURL);
 
+routers.post("/decode", ShortURLController.decodingURL);
+
 export default routers;

@@ -1,3 +1,4 @@
+import { NewDecoder, Visit } from "../dto/urlStat.dto";
 
 const urlMap = new Map();
 const urlStats = new Map();
@@ -39,8 +40,45 @@ function generateShortToken(length: number) {
     }
   }
 
+  async function decodingURL(decodeData: NewDecoder) {
+    try {
+      const tokens = decodeData.short_url.split("/");
+      const shortToken = tokens[tokens.length - 1];
+  
+      const long_url = urlMap.get(shortToken);
+  
+      if (!long_url) {
+        throw new Error(`No URL found for ${shortToken}`);
+      }
+  
+      const timestamp = new Date();
+      const stats = urlStats.get(shortToken);
+  
+      const existingVisit = stats.visits.find(
+        (visit: Visit) => visit.ip_address === decodeData.ip_address
+      );
+  
+      if (existingVisit) {
+        existingVisit.update_date = timestamp;
+        existingVisit.visit_count += 1;
+      } else {
+        stats.visits.push({
+          ip_address: decodeData.ip_address,
+          visit_count: 1,
+          create_date: timestamp,
+          update_date: timestamp,
+        });
+      }
+  
+      return long_url;
+    } catch (error) {
+      return error as Error;
+    }
+  }
+
   const ShortURLService = {
     encodingURL,
+    decodingURL,
   }
 
   export default ShortURLService;
