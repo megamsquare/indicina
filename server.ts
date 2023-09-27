@@ -3,7 +3,7 @@ import express from 'express';
 import helmet from 'helmet';
 import rate_limit from 'express-rate-limit';
 import bodyParser from 'body-parser';
-// import routers from './src/routes';
+import routers from './src/routes';
 
 // import Middleware from './src/middleware';
 
@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(helmet());
 
 // Routers
-// app.use('/api/v1', routers)
+app.use('/api/v1', routers)
 
 // Page not found route
 // app.use(Middleware.NotFoundMiddleware)
